@@ -2,53 +2,80 @@ import React from 'react'
 import { getAllHeros } from '../../lib/api'
 
 import HeroCardLeft from './HeroCardLeft'
+import HeroCardRight from './HeroCardRight'
+
+function getTwoHeros(heroes) {
+  let firstIndex = Math.floor(Math.random() * heroes.length)
+  let firstHero = heroes[firstIndex]
+
+  while (!firstHero.id) {
+    firstIndex = Math.floor(Math.random() * heroes.length)
+    firstHero = heroes[firstIndex]
+  }
+
+  let secondIndex = Math.floor(Math.random() * heroes.length)
+  let secondHero = heroes[secondIndex]
+
+  while (secondIndex === firstIndex || !secondHero.id) {
+    secondIndex = Math.floor(Math.random() * heroes.length)
+    secondHero = heroes[secondIndex]
+  }
+
+  return [firstHero, secondHero]
+}
+
+function handleClickLeft(e) {
+  // if it is left card, say is left
+  console.log(e)
+}
+
+
 
 
 function HeroGame() {
   const [heroes, setHeroes] = React.useState(null)
+  const [heroRight, setHeroRight] = React.useState(null)
+  const [heroLeft, setHeroLeft] = React.useState(null)
+
+
 
   React.useEffect(() => {
     const getData = async () => {
       const response = await getAllHeros()
       setHeroes(response.data)
+      const [first, second] = getTwoHeros(response.data)
+      setHeroLeft(first)
+      setHeroRight(second)
+  
     }
+  
     getData()
   },[])
 
-  console.log(heroes)
-
-  const filteredHeroes = () => {
-    let getId = Math.floor(Math.random() * 563)
-    console.log(getId)
-    return heroes.filter(hero =>{
-      return hero.id === getId
-    })
-  }
 
   return (
     <section>
-      <div className="container"> 
+      <div onClick={handleClickLeft} className="container"> 
         <div className="columns">
-          {heroes && filteredHeroes().map(hero =>{
-            console.log('left card')
-            return (
-              <>
-                <HeroCardLeft key={hero.id}
-                  hero={hero}/>
-              </>
-            )
-          })}
-           {heroes && filteredHeroes().map(hero =>{
-            console.log('right card')
-            return (
-              <>
-                <HeroCardLeft key={hero.id}
-                  hero={hero}/>
-              </>
-            )
-          })}
+          { heroLeft &&
+            <HeroCardLeft 
+              key={heroLeft.id}
+              heroLeft = {heroLeft}
+            />
+          }
+
         </div>  
-      </div> 
+        <div className="columns">
+          { heroRight &&
+            <HeroCardRight
+              key={heroRight.id}
+              heroRight = {heroRight}
+            />
+          }
+
+        </div>  
+      </div>
+
     </section>
        
   )
