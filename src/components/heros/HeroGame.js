@@ -24,6 +24,7 @@ function getTwoHeros(heroes) {
   return [firstHero, secondHero]
 }
 
+
 function getPowerStat() {
   const powerStatArray = ['combat', 'durability', 'intelligence', 'power', 'speed', 'strength']
   let chosenStat = powerStatArray[Math.floor(Math.random() * 6)]
@@ -31,6 +32,7 @@ function getPowerStat() {
 }
 
 console.log(getPowerStat())
+
 
 
 function HeroGame() {
@@ -41,9 +43,10 @@ function HeroGame() {
   const [playerChoice, setPlayerChoice] = React.useState('')
   const [powerStatsLeft, setPowerStatsLeft] = React.useState('')
   const [powerStatsRight, setPowerStatsRight] = React.useState('')
+
+
   const isWin = playerChoice === heroLeft && powerStatsLeft.intelligence > powerStatsRight.intelligence ||
                 playerChoice === heroRight && powerStatsRight.intelligence > powerStatsLeft.intelligence
-
 
   React.useEffect(() => {
     const getData = async () => {
@@ -51,11 +54,14 @@ function HeroGame() {
       setHeroes(response.data)
       const [first, second] = getTwoHeros(response.data)
       setHeroLeft(first)
-      setHeroRight(second) 
+      setHeroRight(second)
+      setPowerStats(getPowerStat()) 
     }
   
     getData()
   },[])
+
+  console.log('the stat', powerStats)
 
   function handleClick(e) {
     // setting the power stats for each card
