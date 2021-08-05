@@ -1,0 +1,30 @@
+@import '~bulma/bulma.sass';
+@import url(
+  'https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Racing+Sans+One&display=swap');
+  
+  $heroyellow: #F4D11C;
+  $black: #17161A;
+  $white: #fff;
+
+  body{
+    height: 100vh;
+    // background-image:url('src/images/backgroundtest.svg');
+    background-size: cover;
+    background-color: $heroyellow;
+    background-repeat: no-repeat;
+    font-family: 'Permanent Marker', sans-serif;
+    color: $black; 
+    font-size: 20px;
+
+    h1{
+      font-family: 'Racing Sans One', sans-serif;
+      text-transform: uppercase;
+      font-size: 52px;
+    }
+
+    h3{
+      font-size: 28px;
+      font-family: 'Permanent Marker', sans-serif;
+    }
+
+  }
