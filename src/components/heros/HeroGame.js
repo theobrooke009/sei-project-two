@@ -24,10 +24,7 @@ function getTwoHeros(heroes) {
   return [firstHero, secondHero]
 }
 
-function handleClickLeft(e) {
-  // if it is left card, say is left
-  console.log(e)
-}
+
 
 
 
@@ -36,6 +33,9 @@ function HeroGame() {
   const [heroes, setHeroes] = React.useState(null)
   const [heroRight, setHeroRight] = React.useState(null)
   const [heroLeft, setHeroLeft] = React.useState(null)
+  const [playerChoice, setPlayerChoice] = React.useState('')
+  const [powerStatsLeft, setPowerStatsLeft] = React.useState('')
+  const [powerStatsRight, setPowerStatsRight] = React.useState('')
 
 
 
@@ -53,19 +53,74 @@ function HeroGame() {
   },[])
 
 
+  function handleClick(e) {
+    // setting the power stats for each card
+    setPowerStatsLeft(heroLeft.powerstats)
+    setPowerStatsRight(heroRight.powerstats)
+    if (e.currentTarget.innerText === heroLeft.name) {
+      // setting the player choice
+      setPlayerChoice(heroLeft)  
+    } else {
+      setPlayerChoice(heroRight) 
+    }
+  
+    
+    compareInt()
+  }
+
+  
+  console.log('the player choice is', playerChoice)
+  console.log('left', powerStatsLeft.intelligence, 'right' ,powerStatsRight.intelligence)
+
+  // if the stat on the playerChoice is greater than the stat on the other card the player wins
+    
+  let score = 0
+
+  function compareInt() {
+   
+    if (playerChoice === heroLeft){
+      if (powerStatsLeft.intelligence > powerStatsRight.intelligence){
+        console.log('you win')
+        score = score += 1
+        console.log(score)
+        
+      } 
+    } else if (playerChoice === heroRight){
+      if (powerStatsRight.intelligence > powerStatsLeft.intelligence){
+        console.log('you win')
+        score = score += 1
+        console.log(score)
+      }
+    }
+  }
+
+ 
+
+
+
+  
+
+  // function compareInt() {
+  //   const powerStatArray = ['combat', 'durability', 'intelligence', 'power', 'speed', 'strength' ]
+  //   console.log('the chosen stats', powerStatArray[1])
+  //   console.log('other stat', )
+  // }
+
+
+
+
   return (
     <section>
-      <div onClick={handleClickLeft} className="container"> 
-        <div className="columns">
+      <div className="container"> 
+        <div onClick={handleClick} className="columns">
           { heroLeft &&
             <HeroCardLeft 
               key={heroLeft.id}
               heroLeft = {heroLeft}
             />
           }
-
         </div>  
-        <div className="columns">
+        <div onClick={handleClick} className="columns">
           { heroRight &&
             <HeroCardRight
               key={heroRight.id}
