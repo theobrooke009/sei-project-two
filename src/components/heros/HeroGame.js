@@ -31,22 +31,43 @@ function getPowerStat() {
   return chosenStat
 }
 
-console.log(getPowerStat())
-
-
 
 function HeroGame() {
   const [heroes, setHeroes] = React.useState(null)
   const [heroRight, setHeroRight] = React.useState(null)
   const [heroLeft, setHeroLeft] = React.useState(null)
   const [powerStats, setPowerStats] = React.useState('')
+
   const [playerChoice, setPlayerChoice] = React.useState('')
   const [powerStatsLeft, setPowerStatsLeft] = React.useState('')
   const [powerStatsRight, setPowerStatsRight] = React.useState('')
+  
+  const isIntelligenceWin = powerStats === 'intelligence' &&
+  playerChoice === heroLeft && powerStatsLeft.intelligence > powerStatsRight.intelligence ||
+  playerChoice === heroRight && powerStatsRight.intelligence > powerStatsLeft.intelligence
 
 
-  const isWin = playerChoice === heroLeft && powerStatsLeft.intelligence > powerStatsRight.intelligence ||
-                playerChoice === heroRight && powerStatsRight.intelligence > powerStatsLeft.intelligence
+
+  const isSpeedWin = powerStats === 'speed' &&
+  playerChoice === heroLeft && powerStatsLeft.speed > powerStatsRight.speed ||
+  playerChoice === heroRight && powerStatsRight.speed > powerStatsLeft.speed
+                         
+  const isCombatWin = powerStats === 'combat' &&
+  playerChoice === heroLeft && powerStatsLeft.combat > powerStatsRight.combat ||
+  playerChoice === heroRight && powerStatsRight.combat > powerStatsLeft.combat
+
+  const isDurabilityWin = powerStats === 'durability' &&
+  playerChoice === heroLeft && powerStatsLeft.durability > powerStatsRight.durability ||
+  playerChoice === heroRight && powerStatsRight.durability > powerStatsLeft.durability
+
+  const isPowerWin = powerStats === 'power' &&
+  playerChoice === heroLeft && powerStatsLeft.power > powerStatsRight.power ||
+  playerChoice === heroRight && powerStatsRight.power > powerStatsLeft.power
+
+  const isStrengthWin = powerStats === 'strength' &&
+  playerChoice === heroLeft && powerStatsLeft.strength > powerStatsRight.strength  ||
+  playerChoice === heroRight && powerStatsRight.strength  > powerStatsLeft.strength 
+
 
   React.useEffect(() => {
     const getData = async () => {
@@ -56,12 +77,22 @@ function HeroGame() {
       setHeroLeft(first)
       setHeroRight(second)
       setPowerStats(getPowerStat()) 
+      
     }
-  
     getData()
   },[])
 
-  console.log('the stat', powerStats)
+  console.log('power stats new', powerStats)
+
+  // if the powerStat string we have set up is the same as the hero.powerstat 
+  // set that as the powerstat to match win states
+
+  console.log(heroes)
+
+
+ 
+  
+
 
   function handleClick(e) {
     // setting the power stats for each card
@@ -73,14 +104,36 @@ function HeroGame() {
     } else {
       setPlayerChoice(heroRight) 
     }
-  }
 
+    const winPowerState = () => {
+      return heroes.filter(hero =>{
+        if (heroLeft.powerstats === powerStats){
+          console.log('match')
+        }
+      })
+    }
+  
+    winPowerState()
+
+  }
 
   return (
     <section>
       <div className="container"> 
-        {playerChoice && isWin && <p>You win</p>}
-        {playerChoice && !isWin && <p>You lose</p>}
+        
+        {playerChoice && isIntelligenceWin && <p>You int win</p>}
+        
+        {playerChoice && isSpeedWin && <p>You speed win</p>}
+        
+        {playerChoice && isCombatWin && <p>You combat win</p>}
+        
+        {playerChoice && isDurabilityWin && <p>You dur win</p>}
+        
+        {playerChoice && isPowerWin && <p>You power win</p>}
+      
+        {playerChoice && isStrengthWin && <p>You strength win</p>}
+
+    
         <div onClick={handleClick} className="columns">
           { heroLeft &&
             <HeroCardLeft 
