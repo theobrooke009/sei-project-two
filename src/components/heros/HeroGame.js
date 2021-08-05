@@ -24,19 +24,25 @@ function getTwoHeros(heroes) {
   return [firstHero, secondHero]
 }
 
+function getPowerStat() {
+  const powerStatArray = ['combat', 'durability', 'intelligence', 'power', 'speed', 'strength']
+  let chosenStat = powerStatArray[Math.floor(Math.random() * 6)]
+  return chosenStat
+}
 
-
-
+console.log(getPowerStat())
 
 
 function HeroGame() {
   const [heroes, setHeroes] = React.useState(null)
   const [heroRight, setHeroRight] = React.useState(null)
   const [heroLeft, setHeroLeft] = React.useState(null)
+  const [powerStats, setPowerStats] = React.useState('')
   const [playerChoice, setPlayerChoice] = React.useState('')
   const [powerStatsLeft, setPowerStatsLeft] = React.useState('')
   const [powerStatsRight, setPowerStatsRight] = React.useState('')
-
+  const isWin = playerChoice === heroLeft && powerStatsLeft.intelligence > powerStatsRight.intelligence ||
+                playerChoice === heroRight && powerStatsRight.intelligence > powerStatsLeft.intelligence
 
 
   React.useEffect(() => {
@@ -45,13 +51,11 @@ function HeroGame() {
       setHeroes(response.data)
       const [first, second] = getTwoHeros(response.data)
       setHeroLeft(first)
-      setHeroRight(second)
-  
+      setHeroRight(second) 
     }
   
     getData()
   },[])
-
 
   function handleClick(e) {
     // setting the power stats for each card
@@ -63,55 +67,14 @@ function HeroGame() {
     } else {
       setPlayerChoice(heroRight) 
     }
-  
-    
-    compareInt()
   }
-
-  
-  console.log('the player choice is', playerChoice)
-  console.log('left', powerStatsLeft.intelligence, 'right' ,powerStatsRight.intelligence)
-
-  // if the stat on the playerChoice is greater than the stat on the other card the player wins
-    
-  let score = 0
-
-  function compareInt() {
-   
-    if (playerChoice === heroLeft){
-      if (powerStatsLeft.intelligence > powerStatsRight.intelligence){
-        console.log('you win')
-        score = score += 1
-        console.log(score)
-        
-      } 
-    } else if (playerChoice === heroRight){
-      if (powerStatsRight.intelligence > powerStatsLeft.intelligence){
-        console.log('you win')
-        score = score += 1
-        console.log(score)
-      }
-    }
-  }
-
- 
-
-
-
-  
-
-  // function compareInt() {
-  //   const powerStatArray = ['combat', 'durability', 'intelligence', 'power', 'speed', 'strength' ]
-  //   console.log('the chosen stats', powerStatArray[1])
-  //   console.log('other stat', )
-  // }
-
-
 
 
   return (
     <section>
       <div className="container"> 
+        {playerChoice && isWin && <p>You win</p>}
+        {playerChoice && !isWin && <p>You lose</p>}
         <div onClick={handleClick} className="columns">
           { heroLeft &&
             <HeroCardLeft 
@@ -127,14 +90,10 @@ function HeroGame() {
               heroRight = {heroRight}
             />
           }
-
         </div>  
       </div>
-
-    </section>
-       
+    </section>     
   )
- 
 }
 
 export default HeroGame
