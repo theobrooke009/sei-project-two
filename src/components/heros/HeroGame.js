@@ -151,6 +151,13 @@ function HeroGame() {
   return (
     <section>
       <div className="container"> 
+
+        {!playerChoice && powerStats === 'intelligence' && <p>Who is smarter?</p>}
+        {!playerChoice && powerStats === 'speed' && <p>Who is faster?</p>}
+        {!playerChoice && powerStats === 'combat' && <p>Who is better in a brawl?</p>}
+        {!playerChoice && powerStats === 'durability' && <p>Who can go the distance?</p>}
+        {!playerChoice && powerStats === 'power' && <p>Who is more powerful?</p>}
+        {!playerChoice && powerStats === 'strength' && <p>Who is stronger?</p>}
         
         {playerChoice && powerStats === 'intelligence' && isIntelligenceWin && <p>You int win</p>}
 
@@ -187,11 +194,6 @@ function HeroGame() {
         {playerChoice &&  powerStats === 'strength' && isStrengthLose  && <p>You strength lose</p>}
 
         {playerChoice && powerStats === 'strength' && isStrengthDraw && <p>You strength draw</p>}
-        
-        
-
-     
-
     
         <div onClick={handleClick} className="columns">
           { heroLeft &&
