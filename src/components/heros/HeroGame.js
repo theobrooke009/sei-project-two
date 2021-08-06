@@ -20,10 +20,8 @@ function getTwoHeros(heroes) {
     secondIndex = Math.floor(Math.random() * heroes.length)
     secondHero = heroes[secondIndex]
   }
-
   return [firstHero, secondHero]
 }
-
 
 function getPowerStat() {
   const powerStatArray = ['combat', 'durability', 'intelligence', 'power', 'speed', 'strength']
@@ -31,23 +29,15 @@ function getPowerStat() {
   return chosenStat
 }
 
-
-
-
 function HeroGame() {
   const [heroes, setHeroes] = React.useState(null)
   const [heroRight, setHeroRight] = React.useState(null)
   const [heroLeft, setHeroLeft] = React.useState(null)
   const [powerStats, setPowerStats] = React.useState('')
-
   const [playerChoice, setPlayerChoice] = React.useState('')
-
-  // comparing each powerstat individually
-  // intelligence win, intelligence loss, intelligence draw
-
-  // render a statement for each win, loss or draw 
-
-    
+  const [hasPlayed, setHasPlayed] = React.useState(false)
+  
+ 
   const isIntelligenceWin = powerStats === 'intelligence' &&
   playerChoice === heroLeft && heroLeft.powerstats.intelligence > heroRight.powerstats.intelligence ||
   playerChoice === heroRight && heroRight.powerstats.intelligence > heroLeft.powerstats.intelligence
@@ -120,8 +110,6 @@ function HeroGame() {
   playerChoice === heroLeft && heroLeft.powerstats.strength === heroRight.powerstats.strength ||
   playerChoice === heroRight && heroRight.powerstats.strength  === heroLeft.powerstats.strength
 
-  
-  
   React.useEffect(() => {
     const getData = async () => {
       const response = await getAllHeros()
@@ -129,70 +117,73 @@ function HeroGame() {
       const [first, second] = getTwoHeros(response.data)
       setHeroLeft(first)
       setHeroRight(second)
-      setPowerStats(getPowerStat()) 
-      
+      setPowerStats(getPowerStat())   
     }
     getData()
-  },[])
- 
+
+  
+  },[hasPlayed])
+
+
+    
+
+
+  // use has played to determine state change and new cards
+  // on click we set has played to true = rerender
+  // clear interval
+  // set it back to false
+
   function handleClick(e) {
-    // setting the power stats for each card
     if (e.currentTarget.innerText === heroLeft.name) {
-      // setting the player choice
       setPlayerChoice(heroLeft)  
     } else {
       setPlayerChoice(heroRight) 
     }
-    console.log('power stats new', powerStats)
-    console.log('hero left stats', heroLeft.powerstats)
-    console.log('hero right stats', heroRight.powerstats)
+    setTimeout(() => {
+      setHasPlayed(!hasPlayed)
+    }, 700)
   }
+
+
+
+
+
+
+
 
   return (
     <section>
       <div className="container"> 
-
+        {/* 
         {!playerChoice && powerStats === 'intelligence' && <p>Who is smarter?</p>}
         {!playerChoice && powerStats === 'speed' && <p>Who is faster?</p>}
         {!playerChoice && powerStats === 'combat' && <p>Who is better in a brawl?</p>}
         {!playerChoice && powerStats === 'durability' && <p>Who can go the distance?</p>}
         {!playerChoice && powerStats === 'power' && <p>Who is more powerful?</p>}
-        {!playerChoice && powerStats === 'strength' && <p>Who is stronger?</p>}
+        {!playerChoice && powerStats === 'strength' && <p>Who is stronger?</p>} */}
         
         {playerChoice && powerStats === 'intelligence' && isIntelligenceWin && <p>You int win</p>}
-
         {playerChoice &&  powerStats === 'intelligence' && isIntelligenceLose && <p>You int lose</p>}
-
         {playerChoice && powerStats === 'intelligence' &&  isIntelligenceDraw && <p>You int draw</p>}
 
         {playerChoice && powerStats === 'speed' && isSpeedWin && <p>You speed win</p>}
-
         {playerChoice &&  powerStats === 'speed' && isSpeedLose && <p>You speed lose</p>}
-
         {playerChoice && powerStats === 'speed' && isSpeedDraw && <p>You speed draw</p>}
 
         {playerChoice && powerStats === 'combat' && isCombatWin && <p>You combat win</p>}
-
         {playerChoice &&  powerStats === 'combat' && isCombatLose  && <p>You combat lose</p>}
-
         {playerChoice && powerStats === 'combat' && isCombatDraw && <p>You combat draw</p>}
 
         {playerChoice && powerStats === 'durability' && isDurabilityWin && <p>You durability win</p>}
-
         {playerChoice &&  powerStats === 'durability' && isDurabilityLose  && <p>You durability lose</p>}
-
         {playerChoice && powerStats === 'durability' && isDurabilityDraw && <p>You durability draw</p>}
 
         {playerChoice && powerStats === 'power' && isPowerWin && <p>You power win</p>}
-
         {playerChoice &&  powerStats === 'power' && isPowerLose  && <p>You power lose</p>}
-
         {playerChoice && powerStats === 'power' && isPowerDraw && <p>You power draw</p>}
 
         {playerChoice && powerStats === 'strength' && isStrengthWin && <p>You strength win</p>}
-
         {playerChoice &&  powerStats === 'strength' && isStrengthLose  && <p>You strength lose</p>}
-
         {playerChoice && powerStats === 'strength' && isStrengthDraw && <p>You strength draw</p>}
     
         <div onClick={handleClick} className="columns">
