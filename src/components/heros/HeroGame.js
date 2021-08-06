@@ -36,6 +36,7 @@ function HeroGame() {
   const [powerStats, setPowerStats] = React.useState('')
   const [playerChoice, setPlayerChoice] = React.useState('')
   const [hasPlayed, setHasPlayed] = React.useState(false)
+  const [score, setScore] = React.useState(0)
   
  
   const isIntelligenceWin = powerStats === 'intelligence' &&
@@ -117,15 +118,14 @@ function HeroGame() {
       const [first, second] = getTwoHeros(response.data)
       setHeroLeft(first)
       setHeroRight(second)
-      setPowerStats(getPowerStat())   
+      setPowerStats(getPowerStat())  
+      scoreCheck()
     }
     getData()
+    
 
   
   },[hasPlayed])
-
-
-    
 
 
   // use has played to determine state change and new cards
@@ -139,13 +139,44 @@ function HeroGame() {
     } else {
       setPlayerChoice(heroRight) 
     }
+   
+    
     setTimeout(() => {
       setHasPlayed(!hasPlayed)
-    }, 700)
+    }, 1000)
   }
 
+ 
+  console.log('the score', score)
+ 
 
-
+  function scoreCheck() {
+  
+    if (isIntelligenceWin){
+      return setScore(score + 1)
+    } else if (isPowerWin) {
+      return setScore(score + 1)
+    } else if (isSpeedWin) {   
+      return setScore(score + 1)
+    } else if (isStrengthWin) {
+      return setScore(score + 1)
+    } else if (isDurabilityWin){
+      return setScore(score + 1)
+    } else if (isCombatWin) {
+      return setScore(score + 1)
+    }
+      
+  }
+    
+  // console.log('intelligence win', isIntelligenceWin)
+  // console.log('speed win', isSpeedWin)
+  // console.log('combat win', isCombatWin)
+  // console.log('power win', isPowerWin)
+  // console.log('durability win', isDurabilityWin)
+  // console.log('STRENGTH win', isStrengthWin)
+  // console.log('score', score)
+    
+  
 
 
 
@@ -154,16 +185,16 @@ function HeroGame() {
   return (
     <section>
       <div className="container"> 
-        {/* 
+        
         {!playerChoice && powerStats === 'intelligence' && <p>Who is smarter?</p>}
         {!playerChoice && powerStats === 'speed' && <p>Who is faster?</p>}
         {!playerChoice && powerStats === 'combat' && <p>Who is better in a brawl?</p>}
         {!playerChoice && powerStats === 'durability' && <p>Who can go the distance?</p>}
         {!playerChoice && powerStats === 'power' && <p>Who is more powerful?</p>}
-        {!playerChoice && powerStats === 'strength' && <p>Who is stronger?</p>} */}
+        {!playerChoice && powerStats === 'strength' && <p>Who is stronger?</p>}
         
         {playerChoice && powerStats === 'intelligence' && isIntelligenceWin && <p>You int win</p>}
-        {playerChoice &&  powerStats === 'intelligence' && isIntelligenceLose && <p>You int lose</p>}
+        {playerChoice &&  powerStats === 'intelligence' && isIntelligenceLose &&  <p>You int lose</p>}
         {playerChoice && powerStats === 'intelligence' &&  isIntelligenceDraw && <p>You int draw</p>}
 
         {playerChoice && powerStats === 'speed' && isSpeedWin && <p>You speed win</p>}
