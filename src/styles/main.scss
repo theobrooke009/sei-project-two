@@ -6,12 +6,14 @@
   $black: #17161A;
   $white: #fff;
 
+  html {
+    background-color: $heroyellow;
+  }
+
   body{
-    height: 100vh;
-    // background-image:url('src/images/backgroundtest.svg');
-    background-size: cover;
     background-color: $heroyellow;
     background-repeat: no-repeat;
+    background-size: contain;
     font-family: 'Permanent Marker', sans-serif;
     color: $black; 
     font-size: 20px;
@@ -23,8 +25,51 @@
     }
 
     h3{
-      font-size: 28px;
+      font-size: 32px;
       font-family: 'Permanent Marker', sans-serif;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      text-align: center;
+      margin: 10px;
+      box-shadow: none;
+      p {
+        text-align: center;
+      }
+    }
+
+    .button {
+      margin-top: 35px;
+      font-family: 'Permanent Marker', sans-serif;
+      background-color: $black;
+      color: $white;
+    }
+
+    .column {
+       margin: 0 auto;
+    }
+
+    .columns:not(.is-desktop) {
+      display: flex;
+      justify-content: center;
+  }
+
+    .game-wrapper {
+      height: 100vh;
+    }
+
+    .white {
+      background-color: $white;
+      padding: 20px;
+    }
+
+    .navbar-brand {
+      padding-left: 20px;
+    }
+
+    .text-is-centered {
+      text-align: center;
     }
 
   }
