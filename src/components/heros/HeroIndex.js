@@ -18,7 +18,6 @@ function HeroIndex () {
     setSearchValue(e.target.value)
   }
 
-
   const filteredHeroes = () => {
     return heroes.filter(hero => {
       return hero.name.toLowerCase().includes(searchValue.toLowerCase())

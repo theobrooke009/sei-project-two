@@ -43,7 +43,7 @@ function HeroGame() {
   const [round, setRound] = React.useState(0)
   const [gameOver, setGameOver] = React.useState(false)
   
-  console.log(heroes)
+
 
   const isIntelligenceWin = powerStats === 'intelligence' &&
   playerChoice === heroLeft && heroLeft.powerstats.intelligence > heroRight.powerstats.intelligence ||
@@ -95,25 +95,22 @@ function HeroGame() {
     setTimeout(() => {
       setHasPlayed(!hasPlayed)
     }, 1000)
+    console.log('round', round)
   }
 
   function handleReset() {
-    
-    setHeroes(null)
-    setHeroRight(null)
-    setHeroLeft(null)
-    setPowerStats('')
+    setHeroRight(heroes[Math.floor(Math.random() * 563)])
+    setHeroLeft(heroes[Math.floor(Math.random() * 563)])
+    setPowerStats(getPowerStat())
     setPlayerChoice('')
     setHasPlayed(false)
     setScore(0)
-    setRound(0)
-    setGameOver(false)
+    setRound(1)
+
+    setGameOver(false) 
   }
  
  
-  console.log('the score', score)
-  console.log('the round', round)
-  console.log('game over', gameOver)
 
   function scoreCheck() {
     setRound(round + 1)
@@ -134,7 +131,7 @@ function HeroGame() {
 
   function setTheRound(){
     setRound(round + 1)
-    if (round === 20){
+    if (round === 10){
       setGameOver(true)
     }
   }
@@ -143,26 +140,12 @@ function HeroGame() {
 
     
   return (
-    <section>
-      <div className="container text-centered"> 
-
-        { !gameOver && powerStats === 'intelligence' && <p className="text-is-centered">Who is smarter?</p>}
-        { !gameOver && powerStats === 'speed' && <p className="text-is-centered">Who is faster?</p>}
-        { !gameOver && powerStats === 'combat' && <p className="text-is-centered">Who is better in a brawl?</p>}
-        { !gameOver && powerStats === 'durability' && <p className="text-is-centered">Who can go the distance?</p>}
-        { !gameOver && powerStats === 'power' && <p className="text-is-centered">Who is more powerful?</p>}
-        { !gameOver && powerStats === 'strength' && <p className="text-is-centered">Who is stronger?</p>}
-
-        {gameOver && 
-          <>
-            <p>The game is over, your score is {score}</p>
-            <button onClick={handleReset} className="button">Play again?</button>
-            <Link to="/"><button className="button"> Back to Home </button></Link> 
-          </>}
+    <section className="hero is-fullheight">
+      <div className="container is-fluid text-centered"> 
 
         <div className="columns">
 
-          <div onClick={handleClick} className="column">
+          <div onClick={handleClick} className="column is-one-third">
             { !gameOver && heroLeft &&
             <HeroCardLeft 
               key={heroLeft.id}
@@ -170,7 +153,25 @@ function HeroGame() {
             />
             }
           </div>  
-          <div onClick={handleClick} className="column">
+          <div className="middle-div column is-one-third">
+            {(round <= 10) && <h3>ROUND {round}/10</h3>}
+            { !gameOver && powerStats === 'intelligence' && <p className="text-is-centered">Who is smarter?</p>}
+            { !gameOver && powerStats === 'speed' && <p className="text-is-centered">Who is faster?</p>}
+            { !gameOver && powerStats === 'combat' && <p className="text-is-centered">Who is better in a brawl?</p>}
+            { !gameOver && powerStats === 'durability' && <p className="text-is-centered">Who can go the distance?</p>}
+            { !gameOver && powerStats === 'power' && <p className="text-is-centered">Who is more powerful?</p>}
+            { !gameOver && powerStats === 'strength' && <p className="text-is-centered">Who is stronger?</p>}
+
+            {gameOver && 
+          <>
+            <p className="ending-text">The game is over, your score is {score}</p>
+            <div className="reset-buttons">
+              <button onClick={handleReset} className="button">Play again?</button>
+              <Link to="/"><button className="button"> Back to Home </button></Link> 
+            </div>
+          </>}
+          </div>
+          <div onClick={handleClick} className="column is-one-third">
             { !gameOver && heroRight &&
             <HeroCardRight
               key={heroRight.id}
