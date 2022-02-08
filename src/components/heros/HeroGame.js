@@ -154,7 +154,7 @@ function HeroGame() {
             }
           </div>  
           <div className="middle-div column is-one-third">
-            {(round <= 10) && <h3>ROUND {round}/10</h3>}
+            {(round <= 10) && <h3 className="text-is-centered">ROUND {round}/10</h3>}
             { !gameOver && powerStats === 'intelligence' && <p className="text-is-centered">Who is smarter?</p>}
             { !gameOver && powerStats === 'speed' && <p className="text-is-centered">Who is faster?</p>}
             { !gameOver && powerStats === 'combat' && <p className="text-is-centered">Who is better in a brawl?</p>}
